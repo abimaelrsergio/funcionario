@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/activity_main_fab_novo_funcionario"
+        android:id="@+id/activity_lista_funcionarios_fab_novo_funcionario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -16,7 +16,7 @@
         android:src="@drawable/ic_action_novo_funcionario" />
 
     <ListView
-        android:id="@+id/activity_main_lista_funcionarios"
+        android:id="@+id/activity_lista_alunos_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
