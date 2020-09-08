@@ -29,8 +29,8 @@ public class FormularioFuncionarioActivity extends AppCompatActivity {
                 String telefone = campoTelefone.getText().toString();
                 Funcionario funcionario = new Funcionario(nome, telefone, email);
                 Toast.makeText(FormularioFuncionarioActivity.this,
-                        funcionario.getNome() + " - " +
-                             funcionario.getEmail() + " - " +
+                        funcionario.getNome() + " , " +
+                             funcionario.getEmail() + " , " +
                              funcionario.getTelefone(),
                         Toast.LENGTH_LONG
                 ).show();
