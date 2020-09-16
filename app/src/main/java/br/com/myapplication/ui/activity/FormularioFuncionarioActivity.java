@@ -16,7 +16,7 @@ public class FormularioFuncionarioActivity extends AppCompatActivity {
     private EditText campoNome;
     private EditText campoEmail;
     private EditText campoTelefone;
-    final FuncionarioDAO dao = new FuncionarioDAO();
+    private final FuncionarioDAO dao = new FuncionarioDAO();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
