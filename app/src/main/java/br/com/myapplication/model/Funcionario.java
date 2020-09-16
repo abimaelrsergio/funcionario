@@ -13,15 +13,8 @@ public class Funcionario {
         this.email = email;
     }
 
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getNome() {
+    @Override
+    public String toString() {
         return nome;
     }
 }
