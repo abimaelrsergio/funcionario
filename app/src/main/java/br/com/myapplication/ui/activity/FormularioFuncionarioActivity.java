@@ -2,10 +2,12 @@ package br.com.myapplication.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import br.com.myapplication.R;
 import br.com.myapplication.dao.FuncionarioDAO;
 import br.com.myapplication.model.Funcionario;
@@ -17,6 +19,7 @@ public class FormularioFuncionarioActivity extends AppCompatActivity {
     private EditText campoEmail;
     private EditText campoTelefone;
     private final FuncionarioDAO dao = new FuncionarioDAO();
+    private Funcionario funcionario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +28,29 @@ public class FormularioFuncionarioActivity extends AppCompatActivity {
         setTitle(TITULO_APPBAR);
         inicializarCampos();
         configurarBotaoSalvar();
+        Intent dados = getIntent();
+        if (dados.hasExtra("funcionario")) {
+            funcionario = (Funcionario) dados.getSerializableExtra("funcionario");
+            campoNome.setText(funcionario.getNome());
+            campoEmail.setText(funcionario.getEmail());
+            campoTelefone.setText(funcionario.getTelefone());
+        } else {
+            funcionario = new Funcionario();
+        }
     }
 
     private void configurarBotaoSalvar() {
         Button botaoSalvar = findViewById(R.id.activity_formulario_funcionario_botao_salvar);
-        botaoSalvar.setOnClickListener(new View.OnClickListener(){
+        botaoSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Funcionario funcionario = criarFuncionario();
-                salvarFuncionario(funcionario);
+                prepararFuncionario();
+                if (funcionario.isValidId()){
+                    dao.editar(funcionario);
+                } else {
+                    dao.salva(funcionario);
+                }
+                finish();
             }
         });
     }
@@ -44,16 +61,14 @@ public class FormularioFuncionarioActivity extends AppCompatActivity {
         campoTelefone = findViewById(R.id.activity_formulario_funcionario_telefone);
     }
 
-    private void salvarFuncionario(Funcionario funcionario) {
-        dao.salva(funcionario);
-        finish();
-    }
-
-    private Funcionario criarFuncionario() {
+    private void prepararFuncionario() {
         String nome = campoNome.getText().toString();
         String email = campoEmail.getText().toString();
         String telefone = campoTelefone.getText().toString();
-        return new Funcionario(nome, telefone, email);
+
+        funcionario.setNome(nome);
+        funcionario.setEmail(email);
+        funcionario.setTelefone(telefone);
     }
 }
 
