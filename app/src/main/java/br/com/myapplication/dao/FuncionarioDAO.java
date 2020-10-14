@@ -40,4 +40,12 @@ public class FuncionarioDAO {
     public List<Funcionario> getAll() {
         return new ArrayList<>(funcionarios); // cópia
     }
+
+    public void remove(Funcionario funcionario) {
+        Funcionario funcionarioEncontrado = findFuncionarioById(funcionario);
+        if (funcionarioEncontrado != null) {
+            funcionarios.remove(funcionarioEncontrado);
+        }
+    }
 }
+

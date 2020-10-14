@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,7 @@ public class ListaFuncionariosActivity extends AppCompatActivity {
 
     public static final String TITULO_APPBAR = "Lista de Funcionários";
     private final FuncionarioDAO funcionarioDao = new FuncionarioDAO();
+    private ArrayAdapter<Funcionario> adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +59,15 @@ public class ListaFuncionariosActivity extends AppCompatActivity {
         final List<Funcionario> funcionarios = funcionarioDao.getAll();
         criarAdapter(listaDeFuncionarios, funcionarios);
         criarListenerClickPorItem(listaDeFuncionarios);
+        listaDeFuncionarios.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Funcionario funcionario = (Funcionario) parent.getItemAtPosition(position);
+                funcionarioDao.remove(funcionario);
+                adapter.remove(funcionario);
+                return true;
+            }
+        });
     }
 
     private void criarListenerClickPorItem(ListView listaDeFuncionarios) {
@@ -76,10 +87,11 @@ public class ListaFuncionariosActivity extends AppCompatActivity {
     }
 
     private void criarAdapter(ListView listaDeFuncionarios, List<Funcionario> funcionarios) {
-        listaDeFuncionarios.setAdapter(new ArrayAdapter<>(
+        adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
-                funcionarios));
+                funcionarios);
+        listaDeFuncionarios.setAdapter(adapter);
     }
 }
 
