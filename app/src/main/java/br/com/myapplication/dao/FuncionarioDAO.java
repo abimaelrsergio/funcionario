@@ -13,21 +13,28 @@ public class FuncionarioDAO {
     public void salva(Funcionario funcionario) {
         funcionario.setId(contadorDeIds);
         funcionarios.add(funcionario);
+        updateIds();
+    }
+
+    private void updateIds() {
         contadorDeIds++;
     }
 
     public void editar(Funcionario funcionario) {
-        Funcionario funcionarioEncontrado = null;
-        for (Funcionario f : funcionarios) {
-            if (f.getId() == funcionario.getId()) {
-                funcionarioEncontrado = f;
-                break;
-            }
-        }
+        Funcionario funcionarioEncontrado = findFuncionarioById(funcionario);
         if (funcionarioEncontrado != null) {
             int posicao = funcionarios.indexOf(funcionarioEncontrado);
             funcionarios.set(posicao, funcionario);
         }
+    }
+
+    private Funcionario findFuncionarioById(Funcionario funcionario) {
+        for (Funcionario f : funcionarios) {
+            if (f.getId() == funcionario.getId()) {
+                return f;
+            }
+        }
+        return null;
     }
 
     public List<Funcionario> getAll() {
