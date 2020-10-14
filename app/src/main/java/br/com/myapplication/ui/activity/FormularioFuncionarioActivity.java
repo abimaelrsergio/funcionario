@@ -12,6 +12,8 @@ import br.com.myapplication.R;
 import br.com.myapplication.dao.FuncionarioDAO;
 import br.com.myapplication.model.Funcionario;
 
+import static br.com.myapplication.ui.activity.Constantes.CHAVE;
+
 public class FormularioFuncionarioActivity extends AppCompatActivity {
 
     public static final String TITULO_APPBAR = "Novo Funcionário";
@@ -29,8 +31,8 @@ public class FormularioFuncionarioActivity extends AppCompatActivity {
         inicializarCampos();
         configurarBotaoSalvar();
         Intent dados = getIntent();
-        if (dados.hasExtra("funcionario")) {
-            funcionario = (Funcionario) dados.getSerializableExtra("funcionario");
+        if (dados.hasExtra(CHAVE)) {
+            funcionario = (Funcionario) dados.getSerializableExtra(CHAVE);
             campoNome.setText(funcionario.getNome());
             campoEmail.setText(funcionario.getEmail());
             campoTelefone.setText(funcionario.getTelefone());
