@@ -17,6 +17,7 @@ import static br.com.myapplication.ui.activity.Constantes.CHAVE;
 public class FormularioFuncionarioActivity extends AppCompatActivity {
 
     public static final String TITULO_APPBAR = "Novo Funcionário";
+    private static final String TITULO_APPBAR_EDITAR = "Editar Funcionário";
     private EditText campoNome;
     private EditText campoEmail;
     private EditText campoTelefone;
@@ -27,18 +28,27 @@ public class FormularioFuncionarioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_funcionario);
-        setTitle(TITULO_APPBAR);
         inicializarCampos();
         configurarBotaoSalvar();
+        carregarFuncionario();
+    }
+
+    private void carregarFuncionario() {
         Intent dados = getIntent();
         if (dados.hasExtra(CHAVE)) {
+            setTitle(TITULO_APPBAR_EDITAR);
             funcionario = (Funcionario) dados.getSerializableExtra(CHAVE);
-            campoNome.setText(funcionario.getNome());
-            campoEmail.setText(funcionario.getEmail());
-            campoTelefone.setText(funcionario.getTelefone());
+            preencherCampos();
         } else {
+            setTitle(TITULO_APPBAR);
             funcionario = new Funcionario();
         }
+    }
+
+    private void preencherCampos() {
+        campoNome.setText(funcionario.getNome());
+        campoEmail.setText(funcionario.getEmail());
+        campoTelefone.setText(funcionario.getTelefone());
     }
 
     private void configurarBotaoSalvar() {
@@ -46,15 +56,19 @@ public class FormularioFuncionarioActivity extends AppCompatActivity {
         botaoSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                prepararFuncionario();
-                if (funcionario.isValidId()){
-                    dao.editar(funcionario);
-                } else {
-                    dao.salva(funcionario);
-                }
-                finish();
+                fecharFormulario();
             }
         });
+    }
+
+    private void fecharFormulario() {
+        prepararFuncionario();
+        if (funcionario.isValidId()){
+            dao.editar(funcionario);
+        } else {
+            dao.salva(funcionario);
+        }
+        finish();
     }
 
     private void inicializarCampos() {
